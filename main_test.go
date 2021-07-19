@@ -15,7 +15,7 @@ import (
 func Test(t *testing.T) {
 	workDir := testMakeTempDir(t)
 	testCopyDir(t, filepath.Join("testdata", "in"), workDir)
-	if err := run(os.DirFS(workDir)); err != nil {
+	if err := run(workDir); err != nil {
 		t.Fatal(err)
 	}
 	testAssertDirsEqual(t, filepath.Join("testdata", "out"), workDir)
@@ -68,11 +68,11 @@ func testAssertDirsEqual(t *testing.T, want, got string) {
 		}
 		shortPath := strings.TrimPrefix(path, want)
 		t.Run(shortPath, func(t *testing.T) {
-			wantText, err := ioutil.ReadFile(path)
+			wantText, err := os.ReadFile(path)
 			if err != nil {
 				t.Fatal(err)
 			}
-			gotText, err := ioutil.ReadFile(filepath.Join(got, shortPath))
+			gotText, err := os.ReadFile(filepath.Join(got, shortPath))
 			if errors.Is(err, os.ErrNotExist) {
 				t.Fatalf("file %s does not exist", shortPath)
 			}

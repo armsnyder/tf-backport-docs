@@ -1,18 +1,28 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	"io/fs"
 	"os"
 )
 
 func main() {
-	if err := run(os.DirFS(".")); err != nil {
-		fmt.Printf("error: %v", err)
+	flag.Parse()
+	dir := flag.Arg(0)
+	if dir == "" {
+		dir = "."
+	}
+	if err := run(dir); err != nil {
+		fmt.Printf("error: %v\n", err)
 		os.Exit(1)
 	}
 }
 
-func run(fs fs.FS) error {
-	return nil
+func run(rootDir string) error {
+	providerName, specs, err := parse(rootDir)
+	if err != nil {
+		return err
+	}
+
+	return render(rootDir, providerName, specs)
 }

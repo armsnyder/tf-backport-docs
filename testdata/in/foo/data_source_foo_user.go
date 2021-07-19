@@ -15,9 +15,10 @@ func dataSourceFooUser() *schema.Resource {
 				},
 			},
 			"username": {
-				Type:     schema.TypeString,
-				Computed: true,
-				Optional: true,
+				Type:        schema.TypeString,
+				Description: "Bogus description.",
+				Computed:    true,
+				Optional:    true,
 				ConflictsWith: []string{
 					"user_id",
 				},
@@ -27,6 +28,14 @@ func dataSourceFooUser() *schema.Resource {
 				Computed: true,
 			},
 			"name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"dupe_same_desc": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"dupe_diff_desc": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
